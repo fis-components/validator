@@ -1,0 +1,12 @@
+{
+    "name": "validator",
+    "description": "String validation and sanitization",
+    "repos": "https://github.com/chriso/validator.js.git",
+    "main": "validator.js",
+    "tag": "master",
+    "reposType": "npm",
+    "dependencies": {
+        "depd": "1.1.0"
+    },
+    "version": "4.9.0"
+}
