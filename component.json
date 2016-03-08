@@ -2,9 +2,9 @@
     "name": "validator",
     "description": "String validation and sanitization",
     "repos": "https://github.com/chriso/validator.js.git",
-    "main": "validator.js",
+    "main": "index.js",
     "tag": "master",
     "reposType": "npm",
     "dependencies": {},
-    "version": "5.0.0"
+    "version": "5.1.0"
 }

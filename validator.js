@@ -148,9 +148,6 @@
         for (var part, i = 0; i < parts.length; i++) {
           part = parts[i];
           if (options.allow_underscores) {
-            if (part.indexOf('__') >= 0) {
-              return false;
-            }
             part = part.replace(/_/g, '');
           }
           if (!/^[a-z\u00a1-\uffff0-9-]+$/i.test(part)) {
@@ -387,8 +384,10 @@
         'es-ES': /^[A-ZÁÉÍÑÓÚÜ]+$/i,
         'fr-FR': /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
         'nl-NL': /^[A-ZÉËÏÓÖÜ]+$/i,
+        'pl-PL': /^[A-ZĄĆĘŚŁŃÓŻŹ]+$/i,
         'pt-PT': /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]+$/i,
         'ru-RU': /^[А-ЯЁа-яё]+$/i,
+        'tr-TR': /^[A-ZÇĞİıÖŞÜ]+$/i,
         ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]+$/
       };
 
@@ -398,8 +397,10 @@
         'es-ES': /^[0-9A-ZÁÉÍÑÓÚÜ]+$/i,
         'fr-FR': /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
         'nl-NL': /^[0-9A-ZÉËÏÓÖÜ]+$/i,
+        'pl-PL': /^[0-9A-ZĄĆĘŚŁŃÓŻŹ]+$/i,
         'pt-PT': /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]+$/i,
         'ru-RU': /^[0-9А-ЯЁа-яё]+$/i,
+        'tr-TR': /^[0-9A-ZÇĞİıÖŞÜ]+$/i,
         ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]+$/
       };
 
@@ -853,11 +854,13 @@
         'es-ES': /^(\+?34)?(6\d{1}|7[1234])\d{7}$/,
         'fi-FI': /^(\+?358|0)\s?(4(0|1|2|4|5)?|50)\s?(\d\s?){4,8}\d$/,
         'fr-FR': /^(\+?33|0)[67]\d{8}$/,
+        'ms-MY': /^(\+?6?01){1}(([145]{1}(\-|\s)?\d{7,8})|([236789]{1}(\s|\-)?\d{7}))$/,
         'nb-NO': /^(\+?47)?[49]\d{7}$/,
         'nn-NO': /^(\+?47)?[49]\d{7}$/,
         'pt-BR': /^(\+?55|0)\-?[1-9]{2}\-?[2-9]{1}\d{3,4}\-?\d{4}$/,
         'pt-PT': /^(\+?351)?9[1236]\d{7}$/,
         'ru-RU': /^(\+?7|8)?9\d{9}$/,
+        'tr-TR': /^(\+?90|0)?5\d{9}$/,
         'vi-VN': /^(\+?84|0)?((1(2([0-9])|6([2-9])|88|99))|(9((?!5)[0-9])))([0-9]{7})$/,
         'zh-CN': /^(\+?0?86\-?)?((13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7})$/,
         'zh-TW': /^(\+?886\-?|0)?9\d{8}$/
@@ -978,6 +981,11 @@
             return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\//g, '&#x2F;').replace(/\`/g, '&#96;');
       }
 
+      function unescape(str) {
+            assertString(str);
+            return str.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/g, '\/').replace(/&#96;/g, '\`');
+      }
+
       function blacklist(str, chars) {
         assertString(str);
         return str.replace(new RegExp('[' + chars + ']+', 'g'), '');
@@ -1035,7 +1043,7 @@
         return parts.join('@');
       }
 
-      var version = '5.0.0';
+      var version = '5.1.0';
 
       var validator = {
         version: version,
@@ -1063,7 +1071,7 @@
         isISO8601: isISO8601,
         isBase64: isBase64,
         ltrim: ltrim, rtrim: rtrim, trim: trim,
-        escape: escape, stripLow: stripLow,
+        escape: escape, unescape: unescape, stripLow: stripLow,
         whitelist: whitelist, blacklist: blacklist,
         isWhitelisted: isWhitelisted,
         normalizeEmail: normalizeEmail,
